@@ -1,4 +1,4 @@
-# NELN GPU Server Userguide NELN实验室GPU服务器用户须知
+# NELN GPU Server Userguide实验室服务器用户须知
 ## Features
 - **Functionality**:
     - **2D real-time multi-person keypoint detection**:
