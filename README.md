@@ -1,6 +1,6 @@
 # 实验室GPU服务器001用户须知
 ## 1. **安全性**
-- 远程登陆
+- SSH远程登陆
     - 服务器的账户由管理员分配（同时配发登陆用**密钥文件**），密钥文件由管理员半年更新一次
     - 服务器的账户密码自行设置强密码，请包含大写字母、小写字母、数字、特殊符号
     - 为防范勒索病毒等安全事故（实验室真实发生过），请务必**保管好**密钥文件、服务器账户信息
@@ -21,31 +21,23 @@
         ```Bash
         docker run --rm -it --name $CONTAINER_NAME --gpus '"device=5,6"' -v /home/example_user/:/mnt $IMAGE_NAME /bin/bash
         ```
-        其中`--rm`指退出后删除该container，`-it ... /bin/bash`以交互模式进入container的命令行，`--name`命名container便于不同用户分辨，`--gpus`指定container可见的gpu，`-v`指定系统路径与container路径的映射关系。更多信息，请阅读docker [docs](https://docs.docker.com/get-started/)
+        其中`--rm`指退出后删除该container，`-it ... /bin/bash`以交互模式进入container的命令行，`--name`命名container便于不同用户分辨，`--gpus`指定container可见的gpu，`-v`指定系统路径与container路径的映射关系。更多信息，请阅读docker [docs](https://docs.docker.com/get-started/)。
 ## 2. **资源分配**
 - 存储
     - 各用户的软件和数据文件，请存放于自己的home文件夹下
     - 服务器硬盘槽已插满，home磁盘总空间约30T，目前共6个用户，请合理占用空间
-    - 
-- GPU
-    - 请勿占满所有GPU
+- GPU*（目前使用率较低，若没有使用冲突，此条不强制执行）*
+    - 请勿占满所有GPU，请<=4
+    - tensorflow、pytorch等均可在代码内指定可见GPU编号，或者在bash内设定CUDA_VISIBLE的GPU
+    - 若确需占用许多甚至全部GPU，请提前与所有用户确认，征得同意后使用
 - 网络
-    - 清华源
+    - anaconda、pip、apt-get等可设置为[清华源](https://mirrors.tuna.tsinghua.edu.cn/)，速度快
+    - 减少非必要的流量，否则将影响10楼其他实验室的网络
 ## **3. 一些使用介绍**
-- tmux
-- cuda driver
+- 使用tmux来维持进程
+    - ssh连接断开后，相应进程将停止，为了维持进程，服务器安装了tmux，在tmux内的进程不会停止
+    - tmux的使用请自行检索
+- 显卡驱动
+    - 服务器已安装显卡驱动版本440.xxx
+    - 服务器已安装CUDA 10.2，cudnn x.x
 
-## Features
-- **Functionality**:
-    - **2D real-time multi-person keypoint detection**:
-        - 15 or 18 or **25-keypoint body/foot keypoint estimation**. **Running time invariant to number of detected people**.
-        - **2x21-keypoint hand keypoint estimation**. Currently, **running time depends** on **number of detected people**.
-        - **70-keypoint face keypoint estimation**. Currently, **running time depends** on **number of detected people**.
-    - **3D real-time single-person keypoint detection**:
-        - 3-D triangulation from multiple single views.
-        - Synchronization of Flir cameras handled.
-        - Compatible with Flir/Point Grey cameras, but provided C++ demos to add your custom input.
-    - **Calibration toolbox**:
-        - Easy estimation of distortion, intrinsic, and extrinsic camera parameters.
-    - **Single-person tracking** for further speed up or visual smoothing.
-- **Input**: Image, video, webcam, Flir/Point Grey and IP camera. Included C++ demos to add your custom input.
