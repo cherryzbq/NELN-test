@@ -19,8 +19,9 @@
         - container与系统交互的路径，必须设定在自己home文件夹及以内（误删系统/他人文件，斩）
         - 使用示例：
         ```Bash
-        echo "hello GitHub" #Bash
+        docker run --rm -it --name $CONTAINER_NAME --gpus '"device=5,6"' -v /home/example_user/:/mnt $IMAGE_NAME /bin/bash
         ```
+        其中'docker'
 ## 2. **资源分配**
 - 存储
     - 各用户的软件和数据文件，请存放于自己的home文件夹下
