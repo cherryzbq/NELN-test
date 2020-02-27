@@ -21,7 +21,7 @@
         ```Bash
         docker run --rm -it --name $CONTAINER_NAME --gpus '"device=5,6"' -v /home/example_user/:/mnt $IMAGE_NAME /bin/bash
         ```
-        其中'docker'
+        其中`--rm`指退出后删除该container，`-it ... /bin/bash`以交互模式进入container的命令行，`--name`命名container便于不同用户分辨，`--gpus`指定container可见的gpu，`-v`指定系统路径与container路径的映射关系。更多信息，请阅读docker [docs](https://docs.docker.com/get-started/)
 ## 2. **资源分配**
 - 存储
     - 各用户的软件和数据文件，请存放于自己的home文件夹下
