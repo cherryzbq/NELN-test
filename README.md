@@ -13,7 +13,7 @@
     - 必需sudo的需求，如果是公共需求或确有需求，联系管理员
     - 服务器的Docker软件具备sudo权限，因此：
         - 确有docker使用需求的用户，由管理员分配docker使用的权限
-        - 具备docker权限的用户，请仔细了解docker的使用语法（目前安装docker19.03，docs见https://docs.docker.com/get-started/）
+        - 具备docker权限的用户，请仔细了解docker的使用语法（目前版本19.03，[docs点这里](https://docs.docker.com/get-started/)）
 ## 2. **资源分配**
 - 存储
     - 各用户的软件和数据文件，请存放于自己的home文件夹下
