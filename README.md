@@ -15,8 +15,9 @@
         - 确有docker使用需求的用户，由管理员分配docker使用的权限
         - 具备docker权限的用户，请仔细了解docker的使用语法（目前版本19.03，[docs点这里](https://docs.docker.com/get-started/)）
         - Docker的container具备root权限，在container内务必谨慎操作（误删系统/他人文件，斩）
-        - image和container及产生的数据都占用空间，请及时删除非必要image/container，否则磁盘满后系统卡死、崩溃（斩）
-        - container与系统交互的路径，必须设定在自己home文件夹及以内（误删系统/他人文件，斩）
+        - Image和container及产生的数据都占用空间，请及时删除非必要image/container，否则磁盘满后系统卡死、崩溃（斩）
+        - 可利用他人的image创建自己的container，但请勿编辑他人的image/container
+        - Container与系统交互的路径，必须设定在自己home文件夹及以内（误删系统/他人文件，斩）
         - 使用示例：
         ```Bash
         docker run --rm -it --name $CONTAINER_NAME --gpus '"device=5,6"' -v /home/example_user/:/mnt $IMAGE_NAME /bin/bash
@@ -41,5 +42,5 @@
     - 服务器已安装显卡驱动版本440.44
     - 服务器已安装CUDA 10.2
 - 大量的小文件上传/下载
-    - 建议用zip/tar等指令压缩、归档为一个文件，再上传/下载
+    - 建议用`zip`/`tar`等指令压缩、归档为一个文件，再上传/下载
 
