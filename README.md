@@ -51,6 +51,15 @@
     # print own CPU usage after all spawned processes completed
     top -b -n 1 -u "$own" | awk -v user=$own -v CPUS=$cpus 'NR>7 { sum += $9; } END { print user, sum, sum/CPUS; }'
     ```
+    使用示例：
+    ```Bash
+    $./viewUsage.sh
+    Username         CPUS    CPUS_normalized
+    user1            3671.2  76.4833
+    user2            104.8   2.18333
+    user3            778.3   16.2146
+    ```
+    例如，user1占用了超过75%的CPU，此时user2、3可找user1商量，user1需要配合减少进程数、降低占用。
 - 网络
     - anaconda、pip、apt-get等可设置为[清华源](https://mirrors.tuna.tsinghua.edu.cn/)，速度快
     - 减少非必要的流量，否则将影响10楼其他实验室的网络
