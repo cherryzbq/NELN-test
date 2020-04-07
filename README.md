@@ -31,6 +31,26 @@
     - 请勿占满所有GPU，请<=4
     - tensorflow、pytorch等均可在代码内指定可见GPU编号，或者在bash内设定CUDA_VISIBLE的GPU
     - 若确需占用许多甚至全部GPU，请提前与所有用户确认，征得同意后使用
+- CPU
+    - 多人使用时，请减少进程数、避免占用过多的CPU资源
+    - CPU占用查看可使用如下shell script：
+    ```Bash
+    own=$(id -nu)
+    cpus=$(lscpu | grep "^CPU(s):" | awk '{print $2}')
+    printf 'Username\t CPUS\t CPUS_normalized\n'
+    for user in $(getent passwd | awk -F ":" '{print $1}' | sort -u)
+    do
+        # print other user's CPU usage in parallel but skip own one because
+        # spawning many processes will increase our CPU usage significantly
+        if [ "$user" = "$own" ]; then continue; fi
+        (top -b -n 1 -u "$user" | awk -v user=$user -v CPUS=$cpus 'NR>7 { sum += $9; } END { if (sum > 0.0) print user "\t" sum "\t" sum/CPUS; }') &
+        # don't spawn too many processes in parallel
+        sleep 0.05
+    done
+    wait
+    # print own CPU usage after all spawned processes completed
+    top -b -n 1 -u "$own" | awk -v user=$own -v CPUS=$cpus 'NR>7 { sum += $9; } END { print user, sum, sum/CPUS; }'
+    ```
 - 网络
     - anaconda、pip、apt-get等可设置为[清华源](https://mirrors.tuna.tsinghua.edu.cn/)，速度快
     - 减少非必要的流量，否则将影响10楼其他实验室的网络
@@ -40,7 +60,7 @@
     - tmux的使用请自行检索
 - 显卡驱动
     - 服务器已安装显卡驱动版本440.64
-    - ~~服务器已安装CUDA 10.2~~（待确认）
+    - 服务器已安装CUDA 10.2和cudnn7.6.5
 - 大量的小文件上传/下载
     - 建议用`zip`/`tar`等指令压缩、归档为一个文件，再上传/下载
 
